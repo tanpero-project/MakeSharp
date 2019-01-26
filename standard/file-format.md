@@ -42,6 +42,11 @@
             "directory": "test"
         }
     ],
+    "macros": {
+        "MAJOR": "2",
+        "MINOR": "0",
+        "DEBUG": true        
+    },
     "flags": {
         "no-warn": "-Wall"
     },
