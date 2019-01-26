@@ -8,7 +8,10 @@
     "version": "1.0.0",
     "author": "Alan Turing",
     "description": "A creative package",
-    "repository": "https://example.com/repos/hello",
+    "repository": {
+        "type": "git",
+        "url": "https://example.com/repos/hello"
+    },
     "script": {
         "test-main": "hello name"
     },
@@ -43,9 +46,17 @@
         }
     ],
     "macros": {
-        "MAJOR": "2",
-        "MINOR": "0",
-        "DEBUG": true        
+	"#": {
+	    "DEBUG": true,
+	    "VERSION": "1.0.0"
+	},
+	"#MAX(a, b)": [
+	    "((a > b) ? a : b)", "common.h", "user.h"
+	],
+	"common.h": {
+	    "MAX_BUFFER": "1024",
+	    "MIN_BUFFER": "512"
+	}
     },
     "flags": {
         "no-warn": "-Wall"
