@@ -12,6 +12,12 @@
     "script": {
         "test-main": "hello name"
     },
+    
+    /* 依赖项构建规则：
+    *  1. 遍历 static 中列出的依赖目录，寻找是否存在lib子目录
+    *  		如果存在，寻找其中是否包含具有符合平台要求的后缀名的动态链接库文件
+    *  			如果存在，那么将动态链接库复制到 MakeSharp
+    */
     "denpendencies": {
         "runtime": [
             "third_party/json",
@@ -36,6 +42,9 @@
             "directory": "test"
         }
     ],
+    "flags": {
+        "no-warn": "-Wall"
+    },
     "license": "GPL-v2"
 }
 ```
