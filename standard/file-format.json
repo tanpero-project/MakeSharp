@@ -1,0 +1,79 @@
+{
+    "name": "hello",
+    "version": "1.0.0",
+    "author": "Alan Turing",
+    "description": "A creative package",
+    "repository": "https://example.com/repos/hello",
+    "script": {
+        "test-main": "hello name"
+    },
+    /* Definitions needed when preprocessing
+    *  Used as Key-and-Value.
+    *  You can set major,minor,etc. info here
+    */
+    "defs":[
+	{
+		"in":"include/defs.h.in",
+		"out":"include/defs.h",
+		"defs":{
+			"food":"nice",
+			"minor":10,
+			"major":20,
+			"debug":true
+			//although debug will not change make# to debug mode.
+		}
+	}
+    ],
+    
+    /* 依赖项构建规则：
+    *  1. 遍历 static 中列出的依赖目录，寻找是否存在lib子目录
+    *  		如果存在，寻找其中是否包含具有符合平台要求的后缀名的动态链接库文件
+    *  			如果存在，那么将动态链接库复制到 MakeSharp
+    */
+    "denpendencies": {
+        "runtime": [
+            "third_party/json",
+            "third_party/true_type"
+        ],
+        "static": [
+            "third_party/csv",
+            "third_party/mpl"
+        ]
+    },
+    "dest": {
+        "include": ["include", "test/include"],
+        "source": ["src", "test"]
+    },
+    "target": [
+        {
+            "type": "shared",
+            "directory": "bin"
+        },
+        {
+            "type": "executable",
+            "directory": "test"
+        }
+    ],
+    "flags": {
+        "no-warn": "-Wall"
+    },
+    "diff": {
+	    "linux":{
+		    "bit":32,
+		    "version":7,
+		    "diffs":{
+			    "dest": {
+				    "include":[
+					    "include/linux32support.h"
+				    ]
+			    }
+		    }
+	    },
+	    "others":{
+		    "include":[
+			    "include/normal.h"
+		    ]
+	    }
+    },
+    "license": "GPL-v2"
+}
