@@ -57,5 +57,23 @@
     "flags": {
         "no-warn": "-Wall"
     },
+    "diff": {
+	    "linux":{
+		    "bit":32,
+		    "version":7,
+		    "diffs":{
+			    "dest": {
+				    "include":[
+					    "include/linux32support.h"
+				    ]
+			    }
+		    }
+	    },
+	    "others":{
+		    "include":[
+			    "include/normal.h"
+		    ]
+	    }
+    },
     "license": "GPL-v2"
 }

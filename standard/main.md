@@ -20,3 +20,7 @@ the defs.h.in contains things like:
 #define food $food
 #define major $major
 ```
+#### diff
+If you want to make difference if the platform you are needs special support
+,You need to add this in makesharp.json.  
+This feature may be supported in further version of Make#.
