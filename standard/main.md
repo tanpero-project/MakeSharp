@@ -12,3 +12,11 @@ if the dependency is a .dll file,you should add it in \["dependencies"]\["runtim
 #### target:  
 the type section of target decides the File type.It can be either "shared" or "executable".  
 "directory" is the directory you want the output in.
+#### defs
+You can add Definitions here.  
+the defs.h.in contains things like:  
+```h
+#define minor $minor
+#define food $food
+#define major $major
+```
