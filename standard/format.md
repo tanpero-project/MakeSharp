@@ -22,43 +22,43 @@ If the dependency is a .dll file,you should add it in "dependencies",for .lib it
 
 ---
 
-项目的元数据。标识一个项目的基本信息。
+The metadata of the project. These dentify basic information about an project.
 
 #### name 
 
 > String 
 
-顾名思义，这一字段是项目名称。
+As the name suggests, this field is the project name.
 
 #### version
 
 > String
 
-项目的版本号。格式： X.Y.Z
+The version number of the project. Format: X.Y.Z
 
-版本规范详见 version.md。
+The version specification is detailed in version.md.
 
 #### author
 
 > String | Array{String}
 
-项目的作者或作者列表。
+A list of authors or authors of the project.
 
 #### description
 
 > String
 
-项目的简要介绍。建议80字符以内。
+A brief introduction to the project. It is recommended to be within 80 characters.
 
 #### repository
 
 > Object{String, String}
 
-项目的仓库信息。
+The repository information for the project.
 
-type 字段用于填写项目仓库所使用的版本控制工具类型；
+The type field is used to fill in the version control tool type used by the project repository;
 
-url 字段用于填写项目的仓库位置（URL）。
+The url field is used to fill in the warehouse location (URL) of the project.
 
 
 
@@ -70,9 +70,9 @@ url 字段用于填写项目的仓库位置（URL）。
 
 > Object{String, ...}
 
-这一字段用于存放使用项目时可运行的脚本。每个子字段代表命令名称，其值为具体的命令内容。可能具有平台相关性。
+This field is used to hold scripts that can be run when the project is used. Each subfield represents the name of the command and its value is the specific command content. May have platform relevance.
 
-脚本执行方式：mash run <命令名>
+Script execution mode: mash run <command name>
 
 
 
@@ -80,47 +80,45 @@ url 字段用于填写项目的仓库位置（URL）。
 
 ---
 
-在同名字段下具有两个子字段：static 和 runtime。
+There are two subfields under the same name field: static and runtime.
 
 #### static
 
 > Array{String}
 
-此字段如果存在，则应当包含一组静态链接库路径。MakeSharp 遍历数组中包含的路径，若遇到不合法的路径则忽略。
+This field, if it exists, should contain a set of static link library paths. MakeSharp traverses the path contained in the array and ignores if it encounters an illegal path.
 
-1. 若以 '/' 字符结尾，说明该路径为目录名。MakeSharp 根据平台信息判断特定于平台的静态链接库后缀名，查找路径下所有后缀名符合的文件，并复制到 <保留目录>/dependencies/static/ 路径下。
-2. 若不以 '/' 字符结尾，说明该路径指向具体文件。MakeSharp 将文件复制到<保留目录/dependencies/static/ 路径下。若文件后缀名不符合平台信息的所期望的，MakeSharp 会给出警告提示，仍继续操作。
+1. If ending with the '/' character, the path is the directory name. MakeSharp determines the platform-specific static link library suffix name based on the platform information, finds all files with the suffix names in the path, and copies them to the <reserved directory>/dependencies/static/ path.
+2. If it does not end with the '/' character, the path points to a specific file. MakeSharp copies the files to the <reserved directory>/dependencies/static/ path. If the file suffix name does not meet the expectations of the platform information, MakeSharp will give a warning and continue to operate.
 
-Notes：若访问路径/复制文件等过程中遇到错误，MakeSharp 会给出相应错误提示并终止生成过程。
+Notes: If an error is encountered during the path/copy file, etc., MakeSharp will give an error message and terminate the build process.
 
 #### runtime
 
 > Array{String}
 
-此字段如果存在，则应当包含一组动态链接库路径。MakeSharp 遍历数组中包含的路径，若遇到不合法的路径则忽略。
+This field, if it exists, should contain a set of dynamic link library paths. MakeSharp traverses the path contained in the array and ignores if it encounters an illegal path.
 
-1. 若以 '/' 字符结尾，说明该路径为目录名。MakeSharp 根据平台信息判断特定于平台的动态链接库后缀名，查找路径下所有后缀名符合的文件，并复制到 <保留目录>/dependencies/runtime 路径下。
-2. 若不以 '/' 字符结尾，说明该路径指向具体文件。MakeSharp 将文件复制到<保留目录/dependencies/runtime/ 路径下。若文件后缀名不符合平台信息的所期望的，MakeSharp 会给出警告提示，仍继续操作。
+1. If ending with the '/' character, the path is the directory name. MakeSharp determines the platform-specific dynamic link library suffix name based on the platform information, finds all files with the suffix names in the path, and copies them to the <reserved directory>/dependencies/runtime path.
+2. If it does not end with the '/' character, the path points to a specific file. MakeSharp copies the files to the <reserved directory/dependencies/runtime/ path. If the file suffix name does not meet the expectations of the platform information, MakeSharp will give a warning and continue to operate.
 
-Notes：若访问路径/复制文件等过程中遇到错误，MakeSharp 会给出相应错误提示并终止生成过程。
-
-
+Notes: If an error is encountered during the path/copy file, etc., MakeSharp will give an error message and terminate the build process.
 
 ### Source Object
 
 ---
 
-用于生成目标文件的用户源代码。
+The user source code used to generate the target file.
 
 #### object
 
 > Object{"include": Array, "source": Array}
 
-object 字段列出了需要引入的头文件路径和需要编译的源文件路径。
+The object field lists the header file path that needs to be imported and the source file path that needs to be compiled.
 
-*include* 包含所需引入的头文件列表。字段包含的值类型：String | Object{Array{String}}
+*include* contains a list of header files that need to be imported. The value type the field contains: String | Object{Array{String}}
 
-示例：
+Example:
 
 ```json
 "include": [
@@ -131,10 +129,10 @@ object 字段列出了需要引入的头文件路径和需要编译的源文件�
 ]
 ```
 
-1. 当值为字符串的时候，可能是一个文件路径或目录名。若以 '/' 字符结尾，为目录路径，MakeSharp 会遍历该目录下所有以 `.h|.hpp`结尾的文件，并记录。若为文件路径，则直接记录。
-2. 当值为对象的时候，根据对象中的键名得到目录路径，然后遍历键值数组，每个元素为需引入的头文件名称。MakeSharp 直接根据已知的父目录路径和头文件名称获取头文件完整路径，并记录。
+1. When the value is a string, it may be a file path or directory name. If the end of the '/' character is the directory path, MakeSharp will traverse all the files ending in `.h|.hpp` in that directory and record them. If it is a file path, it will be recorded directly.
+2. When the value is an object, the directory path is obtained according to the key name in the object, and then the key value array is traversed, and each element is the name of the header file to be imported. MakeSharp gets the full path of the header file directly based on the known parent directory path and header file name, and records it.
 
-*object* 包含需编译的源文件列表。其格式与机制与 *include* 字段等同。
+*source* contains a list of source files to compile. Its format and mechanism are equivalent to the *include* field.
 
 
 
