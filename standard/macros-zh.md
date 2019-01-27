@@ -1,7 +1,7 @@
 # Macros Definition
 --------
-宏定义是Make#的特性之一.  
-加入"useMacros":true来开启定义宏.  
+宏定义是 Make# 的特性之一.  
+加入 "useMacros": true 来开启定义宏.  
 定义宏时,在makesharp.json文件加入`macros`字段.  
 
 宏需要定义在一个作用域内，这个作用域需要是一个.h/.hpp 文件.  
@@ -15,7 +15,7 @@
 		"isMe":"true"
 	}
 }
-```  
+```
 如果想要将此宏成为全局可用，在"#"这个作用域内声明.  
 例:  
 ```json
