@@ -28,6 +28,8 @@ Ex:
 ```
 Also,If you want one macros to be shared in multiple scopes,you can use "+" in a scope:  
 > "+":[String,String,...]  
+> "+":String
+  
 Each String is a reference to another macros.Reference is written in form  
 `scopeName#macrosName`.  
 Ex:
@@ -44,7 +46,10 @@ Ex:
 ```
 You can also include the whole scope macros into a different scope like:  
 > "+":["scopeName#\*"]  
+  
 To exclude some of them,you should use:  
 > "~":["scopeName#macrosName"]  
+  
 To define a macros function:  
-> "MAX(a,b)":"((a\>b)?a:b)
+> "MAX(a,b)":"((a\>b)?a:b)  
+
