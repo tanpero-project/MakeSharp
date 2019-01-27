@@ -50,6 +50,9 @@ You can also include the whole scope macros into a different scope like:
 To exclude some of them,you should use:  
 > "~":["scopeName#macrosName"]  
   
+Or,Set the unwanted macros to value `false`:  
+> "unwanted":false //note that no quotes here.  
+  
 To define a macros function:  
 > "MAX(a,b)":"((a\>b)?a:b)  
 

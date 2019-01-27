@@ -50,6 +50,9 @@
 用以下方式去除一些多引用的宏:  
 > "~":["scopeName#macrosName"]  
   
+也可以通过设置不想要的宏为false来取消引用:  
+> "unwanted":false //注意这里没有引号  
+  
 以如下方式定义宏函数:  
 > "MAX(a,b)":"((a\>b)?a:b)  
 
