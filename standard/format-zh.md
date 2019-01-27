@@ -1,4 +1,4 @@
-## makeSharp Profile Format
+## MakeSharp Profile Format
 
 ---
 
@@ -6,15 +6,15 @@
 
 #### makesharp.json
 
-A makesharp.json file should be under all marksharp project root directories.  
+一个 makesharp.json 文件应当位于其所属的 MakeSharp 项目的顶级目录。
 
-Please see this Demo Document with format.json.  
+展现了本文所提及的所有字段的完整示例可参见 reference.md。
 
-First you need to fill in the basic project information(name, author, version, etc.)  
+在建立一个 MakeSharp 项目的过程中，您应当填写基本的项目信息（名称，作者，版本等）。
 
-To specify dependencies used:
+在发布自己的项目和包含他人项目时，请注意版权问题。makesharp.json 包含且应当包含必要信息。
 
-If the dependency is a .dll file,you should add it in "dependencies",for .lib it should be "static" in stead of "runtime".  
+本文中简要介绍了一个 makesharp.json 文件中所可能包含的所有一级字段。
 
 
 
@@ -59,6 +59,14 @@ If the dependency is a .dll file,you should add it in "dependencies",for .lib it
 type 字段用于填写项目仓库所使用的版本控制工具类型；
 
 url 字段用于填写项目的仓库位置（URL）。
+
+#### license
+
+> String
+
+项目使用的版权许可协议。
+
+若置为空，默认为 MIT 协议。详见 [License Choose](license.md)
 
 
 
@@ -138,14 +146,47 @@ object 字段列出了需要引入的头文件路径和需要编译的源文件�
 
 
 
-### Dest element:
+### Target Object
 
-"include" will add .h/.hpp files And source will include .c/.cpp files.  
+---
 
-target:
+用于构建二进制目标文件。
 
-the type section of target decides the File type.It can be either "shared" or "executable".  
+#### target
 
-"directory" is the directory you want the output in.
+> Object{Object}
+
+包含一组对象，每个对象对应一个实际的二进制文件目标。
+
+其中每个字段对应所生成的文件的名称，type 子字段表明了它是何种类型，MakeSharp 根据平台信息和目标类型，产生带有特定文件后缀名的文件生成方案。path 子字段表明了目标文件应当被存储的位置。详细内容参见 [Target](target.md)。
+
+示例如下：
+
+```json
+"target": {
+    "graphic": {
+        "type": "shared",
+        "path": "build/bin"
+    },
+    "cli": {
+        "type": "executable",
+        "path": "build/cli"
+    }
+}
+```
 
 
+
+### Macros System
+
+---
+
+用于在配置文件中预操作宏的接口。
+
+#### macros
+
+> Object{Object}
+
+子字段 (1) 名称为一个文件路径，其值为一个对象，这个对象的子字段 (2) 名称为需要应用到代码中的宏名，其值为具体的宏定义。(2) 的值为字符串或布尔值。若为字符串，则实际的宏定义照搬其字面内容；若为布尔值，则决定宏是否被使用。
+
+(1) 的名称应为一个合法的文件名，但是保留一个名称：‘#’。这个名称意味着跟随其定义的宏为全局可见。(2) 保留两个名称：'~'和‘+’，用于控制宏的可见性。详见 [Macros](macros.md)。
