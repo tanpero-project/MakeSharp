@@ -1,6 +1,7 @@
 # Macros Definition
 --------
 Macros Definition is one of the features of Make#.  
+To enable it,use "useMacros":true  
 When declaring a Macros,you need to add field `macros` to the root of json.  
 
 A macros should be in a scope and is a .h/.hpp file.  
