@@ -5,8 +5,8 @@
 #include <vector>
 #define ns std::
 namespace MakeSharp{
-	namespace processor{
-		class Processor{
+	namespace generator{
+		class Generator{
 			private:
 				ns string version,
 				       description,
