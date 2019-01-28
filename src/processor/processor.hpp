@@ -44,6 +44,9 @@ namespace MakeSharp{
 					//more than one author
 					this->author=ns vector<ns string> (a);
 				}
+				void setMacros(ns map<ns string,ns map<ns string,ns string>> m){
+					this->macros=m;
+				}
 		};
 	};
 };
