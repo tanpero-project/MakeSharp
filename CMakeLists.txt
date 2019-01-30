@@ -6,4 +6,12 @@ set (MakeSharp_MAJOR 0)
 #    "${PROJECT_SOURCE_DIR}/Config.h.in"
 #    "${PROJECT_SOURCE_DIR}/Config.h"
 #)
-add_executable (MakeSharp src/main.cpp)
+
+set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
+add_subdirectory("${SOURCE_DIR}/parser")
+add_subdirectory("${SOURCE_DIR}/script")
+add_subdirectory("${SOURCE_DIR}/generator")
+add_subdirectory("${SOURCE_DIR}/explorer")
+add_subdirectory("${SOURCE_DIR}/macros")
+add_subdirectory("${SOURCE_DIR}/utils")
+
