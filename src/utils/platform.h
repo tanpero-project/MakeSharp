@@ -1,10 +1,15 @@
-#ifndef PLATFORM_HPP
-#define PLATFORM_HPP
+#ifndef _SRC_UTILS_PLATFORM_H_
+#define _SRC_UTILS_PLATFORM_H_
 
 // Visual Studio 下定义的这个宏会与 enum 中的名称冲突
 #ifdef WIN32
-#undef WIN32
+#	undef WIN32
 #endif // WIN32
+
+#ifdef WIN64
+#	undef WIN64
+#endif // WIN64
+
 
 #define HAS_FLAG(target, flag) ((target & flag) != 0)
 
@@ -18,95 +23,81 @@
 namespace MakeSharp{
 	namespace utils{
 		enum class platformType {
+			UNKNOWN = 0,
 			POSIX = 1,
 			UNIX = 2,
 			LINUX = 4,
 
-			AIX = (UNIX + (1 << 4)),
-			SOLARIS = (UNIX + (1 << 5)),
-			BSD = (UNIX + (1 << 6)),
-			FREEBSD = (BSD + (1 << 7)),
-			NETBSD = (BSD + (1 << 8)),
-			OPENBSD = (BSD + (1 << 9)),
+			AIX = (UNIX | (1 << 4)),
+			SOLARIS = (UNIX | (1 << 5)),
+			BSD = (UNIX | (1 << 6)),
+			FREEBSD = (BSD | (1 << 7)),
+			NETBSD = (BSD | (1 << 8)),
+			OPENBSD = (BSD | (1 << 9)),
 
-			HPUX = (UNIX + (1 << 10)),
-			IRIX = (UNIX + (1 << 11)),
+			HPUX = (UNIX | (1 << 10)),
+			IRIX = (UNIX | (1 << 11)),
 
-			IOS = (UNIX + (1 << 12)),
-			OSX = (UNIX + (1 << 13)),
-			XCODE = (UNIX + (1 << 14)), // The iOS emulator in Xcode.
-			APPLE = (UNIX + (1 << 15)), // Other Apple Platform
+			IOS = (BSD | (1 << 12)),
+			OSX = (BSD | (1 << 13)),
+			XCODE = (BSD | (1 << 14)), // The iOS simulator in Xcode.
+			APPLE = (BSD | (1 << 15)), // Other Apple Platform
 
 			WINDOWS = (1 << 16),
-			MSDOS = (1 << 17),
-			CYGWIN = (POSIX + WINDOWS + (1 << 18))
-
-	/*		LINUX = 0,
-			WINDOWS = 1,
-			AIX = 2,
-			BSD = 3,
-			XCODE = 4,
-			iOS = 5,//'i' IN LOWER CASE CUZ 'IOS' AND 'iOS' IS DIFFERENT
-			OSX = 6,
-			APPLE = 7,//OTHER ENVIRONMENTS IN APPLE
-			SOLARIS = 8,
-			CYWIN = 9,
-			WIN64 = 10,
-			WIN32 = 11,
-			UNIX = 12,
-			POSIX = 13,
-			MSDOS = 14
-			OTHER = 14*/
+			WIN32 = (WINDOWS | (1 << 17)),
+			WIN64 = (WINDOWS | (1 << 18)),
+			MSDOS = (1 << 19),
+			CYGWIN = (POSIX | WINDOWS | (1 << 20))
 		};
 		enum class compilerType{
-			GNU = 0,
-			CLANG = 1,
-			INTEL = 2,
-			HP = 3,
-			IBM = 4,
-			MSVC = 5,
-			PORTLAND = 6,
-			SOLARIS = 7
+			GNU = 2,
+			CLANG = 1 << 2,
+			INTEL = 1 << 3,
+			HP = 1 << 4,
+			IBM = 1 << 5,
+			MSVC = 1 << 6,
+			PORTLAND = 1 << 7,
+			SOLARIS = 1 << 8
 		};
 		class Platform{
 			public:
 			static platformType getPlatform(){
-				platformType type;
+				platformType type = platformType::UNKNOWN;
 #if defined(_AIX)
-				type = AIX;
+				type |= AIX;
 #elif defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
 	#if defined(BSD)
-				type = platformType::BSD;
+				type |= platformType::BSD;
 	#endif
 #elif defined(__hpux)
-				type = platformType::HPUX;
+				type |= platformType::HPUX;
 #elif defined(__linux__)
-				type = platformType::LINUX;
+				type |= platformType::LINUX;
 #elif defined(__APPLE__) && defined(__MACH__)
 	#if TARGET_IPHONE_SIMULATOR  ==  1
-				type = platformType::XCODE;
+				type |= platformType::XCODE;
 	#elif TARGET_OS_IPHONE  ==  1
-				type = platformType::iOS;
+				type |= platformType::IOS;
 	#elif TARGET_OS_MAC  ==  1
-				type = platformType::OSX;
+				type |= platformType::OSX;
 	#else
-				type = platformType::APPLE;
+				type |= platformType::APPLE;
 	#endif
 #elif defined(__sun) && defined(__SVR4)
-				type = platformType::SOLARIS;
+				type |= platformType::SOLARIS;
 #elif defined(__CYGWIN__) && !defined(_WIN32)
-				type = platformType::CYWIN;
+				type |= platformType::CYGWIN;
 #elif defined(_WIN64)
-				type = platformType::WIN64;
+				type |= platformType::WIN64;
 #elif defined(_WIN32)
-				type=platformType::WIN32;
+				type |= platformType::WIN32;
 #elif !defined(_WIN32) && (defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__)))
-				type=platformType::UNIX;
+				type |= platformType::UNIX;
 	#if defined(_POSIX_VERSION)
-				type=platformType::POSIX;
+				type |= platformType::POSIX;
 	#endif
 #else
-				type = platformType::OTHER;
+				type |= platformType::OTHER;
 #endif
 				return type;
 			}
@@ -143,6 +134,5 @@ namespace MakeSharp{
 		
 	};
 };
-#undef coty
-#undef plty
-#endif
+
+#endif // !_SRC_UTILS_PLATFORM_H_
