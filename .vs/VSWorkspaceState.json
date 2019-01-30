@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\utils",
-    "\\src\\utils\\platform"
+    "\\src\\utils"
   ],
-  "SelectedNode": "\\src\\utils\\platform\\compiler.hpp",
+  "SelectedNode": "\\src\\utils\\platform",
   "PreviewInSolutionExplorer": false
 }
