@@ -2,9 +2,21 @@
 #define _SRC_UTILS_PLATFORM_H_
 
 // Visual Studio 下定义的这个宏会与 enum 中的名称冲突
+<<<<<<< HEAD:src/utils/platform.h
 #ifdef WIN32
 #	undef WIN32
 #endif // WIN32
+=======
+// I saw a bunch of nonsense Text / \  FFFFFFF
+// 				   |
+#if defined(WIN32)
+#undef WIN32
+#define WIN32BACK
+#elif defined(WIN64)
+#undef WIN64
+#define WIN64BACK
+#endif // WIN32,64
+>>>>>>> 4c06e012ee3b023dbd52fcf78b21d6943ec02aba:src/utils/platform.hpp
 
 #ifdef WIN64
 #	undef WIN64
@@ -38,10 +50,17 @@ namespace MakeSharp{
 			HPUX = (UNIX | (1 << 10)),
 			IRIX = (UNIX | (1 << 11)),
 
+<<<<<<< HEAD:src/utils/platform.h
 			IOS = (BSD | (1 << 12)),
 			OSX = (BSD | (1 << 13)),
 			XCODE = (BSD | (1 << 14)), // The iOS simulator in Xcode.
 			APPLE = (BSD | (1 << 15)), // Other Apple Platform
+=======
+			IOS = (UNIX | (1 << 12)),
+			OSX = (UNIX | (1 << 13)),
+			XCODE = (UNIX | (1 << 14)), // The iOS emulator in Xcode.
+			APPLE = (UNIX | (1 << 15)), // Other Apple Platform
+>>>>>>> 4c06e012ee3b023dbd52fcf78b21d6943ec02aba:src/utils/platform.hpp
 
 			WINDOWS = (1 << 16),
 			WIN32 = (WINDOWS | (1 << 17)),
@@ -114,7 +133,7 @@ namespace MakeSharp{
 
 #elif defined(__HP_cc) || defined(__HP_aCC)
 				type = compilerType::HP;
-
+?
 #elif defined(__IBMC__) || defined(__IBMCPP__)
 				type = compilerType::IBM;
 
@@ -134,5 +153,16 @@ namespace MakeSharp{
 		
 	};
 };
+<<<<<<< HEAD:src/utils/platform.h
 
 #endif // !_SRC_UTILS_PLATFORM_H_
+=======
+#if defined(WIN32BACK)
+#undef WIN32BACK
+#define WIN32
+#elif defined(WIN64BACK)
+#undef WIN32BACK
+#define WIN64
+#endif
+#endif
+>>>>>>> 4c06e012ee3b023dbd52fcf78b21d6943ec02aba:src/utils/platform.hpp
