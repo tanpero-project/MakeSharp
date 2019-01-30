@@ -2,9 +2,15 @@
 #define PLATFORM_HPP
 
 // Visual Studio 下定义的这个宏会与 enum 中的名称冲突
-#ifdef WIN32
+// I saw a bunch of nonsense Text / \  FFFFFFF
+// 				   |
+#if defined(WIN32)
 #undef WIN32
-#endif // WIN32
+#define WIN32BACK
+#elif defined(WIN64)
+#undef WIN64
+#define WIN64BACK
+#endif // WIN32,64
 
 #define HAS_FLAG(target, flag) ((target & flag) != 0)
 
@@ -22,20 +28,20 @@ namespace MakeSharp{
 			UNIX = 2,
 			LINUX = 4,
 
-			AIX = (UNIX + (1 << 4)),
-			SOLARIS = (UNIX + (1 << 5)),
-			BSD = (UNIX + (1 << 6)),
-			FREEBSD = (BSD + (1 << 7)),
-			NETBSD = (BSD + (1 << 8)),
-			OPENBSD = (BSD + (1 << 9)),
+			AIX = (UNIX | (1 << 4)),
+			SOLARIS = (UNIX | (1 << 5)),
+			BSD = (UNIX | (1 << 6)),
+			FREEBSD = (BSD | (1 << 7)),
+			NETBSD = (BSD | (1 << 8)),
+			OPENBSD = (BSD | (1 << 9)),
 
-			HPUX = (UNIX + (1 << 10)),
-			IRIX = (UNIX + (1 << 11)),
+			HPUX = (UNIX | (1 << 10)),
+			IRIX = (UNIX | (1 << 11)),
 
-			IOS = (UNIX + (1 << 12)),
-			OSX = (UNIX + (1 << 13)),
-			XCODE = (UNIX + (1 << 14)), // The iOS emulator in Xcode.
-			APPLE = (UNIX + (1 << 15)), // Other Apple Platform
+			IOS = (UNIX | (1 << 12)),
+			OSX = (UNIX | (1 << 13)),
+			XCODE = (UNIX | (1 << 14)), // The iOS emulator in Xcode.
+			APPLE = (UNIX | (1 << 15)), // Other Apple Platform
 
 			WINDOWS = (1 << 16),
 			MSDOS = (1 << 17),
@@ -123,7 +129,7 @@ namespace MakeSharp{
 
 #elif defined(__HP_cc) || defined(__HP_aCC)
 				type = compilerType::HP;
-
+?
 #elif defined(__IBMC__) || defined(__IBMCPP__)
 				type = compilerType::IBM;
 
@@ -143,6 +149,11 @@ namespace MakeSharp{
 		
 	};
 };
-#undef coty
-#undef plty
+#if defined(WIN32BACK)
+#undef WIN32BACK
+#define WIN32
+#elif defined(WIN64BACK)
+#undef WIN32BACK
+#define WIN64
+#endif
 #endif
