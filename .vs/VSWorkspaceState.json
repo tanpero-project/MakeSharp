@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\utils",
+    "\\src\\utils\\platform"
+  ],
+  "SelectedNode": "\\src\\utils\\platform\\compiler.hpp",
+  "PreviewInSolutionExplorer": false
+}

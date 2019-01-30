@@ -6,6 +6,7 @@
 #undef WIN32
 #endif // WIN32
 
+#define HAS_FLAG(target, flag) ((target & flag) != 0)
 
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
 	#include <sys/param.h>
@@ -16,8 +17,31 @@
 #endif
 namespace MakeSharp{
 	namespace utils{
-		enum class platformType{
-			LINUX = 0,
+		enum class platformType {
+			POSIX = 1,
+			UNIX = 2,
+			LINUX = 4,
+
+			AIX = (UNIX + (1 << 4)),
+			SOLARIS = (UNIX + (1 << 5)),
+			BSD = (UNIX + (1 << 6)),
+			FREEBSD = (BSD + (1 << 7)),
+			NETBSD = (BSD + (1 << 8)),
+			OPENBSD = (BSD + (1 << 9)),
+
+			HPUX = (UNIX + (1 << 10)),
+			IRIX = (UNIX + (1 << 11)),
+
+			IOS = (UNIX + (1 << 12)),
+			OSX = (UNIX + (1 << 13)),
+			XCODE = (UNIX + (1 << 14)), // The iOS emulator in Xcode.
+			APPLE = (UNIX + (1 << 15)), // Other Apple Platform
+
+			WINDOWS = (1 << 16),
+			MSDOS = (1 << 17),
+			CYGWIN = (POSIX + WINDOWS + (1 << 18))
+
+	/*		LINUX = 0,
 			WINDOWS = 1,
 			AIX = 2,
 			BSD = 3,
@@ -31,7 +55,8 @@ namespace MakeSharp{
 			WIN32 = 11,
 			UNIX = 12,
 			POSIX = 13,
-			OTHER = 14
+			MSDOS = 14
+			OTHER = 14*/
 		};
 		enum class compilerType{
 			GNU = 0,
