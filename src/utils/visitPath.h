@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "utilstuff.h"
 
 namespace MakeSharp
 {
@@ -13,8 +14,6 @@ namespace MakeSharp
 		namespace visitpath
 		{
 			using pathList = std::vector<std::string>;
-
-			pathList sources;
 
 			void getAllFiles(std::string path, pathList& files)
 			{
@@ -51,12 +50,26 @@ namespace MakeSharp
 				getAllFiles(path, fromPath);
 				for (auto it : fromPath)
 				{
-					switch (it)
+					if (utilsstuff::isHeaderFile(it))
 					{
-					default:
-						break;
+						headers.push_back(it);
 					}
 				}
+				return headers;
+			}
+
+			pathList filterSourceFilePaths(std::string path)
+			{
+				pathList fromPath, sources;
+				getAllFiles(path, fromPath);
+				for (auto it : fromPath)
+				{
+					if (utilsstuff::isSourceFile(it))
+					{
+						sources.push_back(it);
+					}
+				}
+				return sources;
 			}
 		}
 	}
