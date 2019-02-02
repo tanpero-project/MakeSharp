@@ -1,0 +1,6 @@
+#ifndef _SRC_INCLUDE_ERRNO_H_
+#define _SRC_INCLUDE_ERRNO_H_
+
+#define INVALID_SOURCE_PATH 1
+
+#endif // !_SRC_INCLUDE_ERRNO_H_

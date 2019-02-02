@@ -1,11 +1,11 @@
 #ifndef _SRC_PARSER_METADATA_H_
 #define _SRC_PARSER_METADATA_H_
 
-#include "loader.h"
+#include "profile.h"
 
 namespace MakeSharp
 {
-	namespace Parser
+	namespace parser
 	{
 		using json = nlohmann::json;
 
@@ -22,10 +22,10 @@ namespace MakeSharp
 				std::string m_url, m_type;
 			};
 
-			using Author = Loader::MetaData::Author;
+			using Author = profile::MetaData::Author;
 
 		public:
-			MetaData(Loader::MetaData metadata);
+			MetaData(profile::MetaData metadata);
 			~MetaData();
 
 			std::string name(void);

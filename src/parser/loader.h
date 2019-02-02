@@ -5,14 +5,15 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 namespace MakeSharp
 {
 	using json = nlohmann::json;
-	namespace Parser
+	namespace parser
 	{
-		namespace Loader
+		namespace loader
 		{
-			json getJSON(char file[])
+			json getJSON(std::string)
 			{
 				std::ifstream t;
 				t.open(file);
@@ -24,44 +25,8 @@ namespace MakeSharp
 				t.close();
 				return json::parse(buffer);
 			}
-
-			struct MetaData
-			{
-				std::string name;
-				union Author
-				{
-					std::string authorName;
-					std::vector<std::string> authorName;
-				};
-				Author author;
-				std::string version;
-				std::string description;
-				std::string license;
-				std::string repoType;
-				std::string repoUrl;
-			};
-
-			MetaData getMetaDatas(json j)
-			{
-			    MetaData metadata = {
-					j["name"],
-					j["author"],
-					j["version"],
-					j["description"],
-					j["license"],
-					j["repository"]["type"],
-					j["repository"]["url"],
-			    };
-			    return metadata;
-			}
 		}
-		
-
-
-
-		return 0;
 	}
-
 };
 
 #endif // !_SRC_PARSER_LOADER_H_
