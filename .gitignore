@@ -31,9 +31,5 @@
 *.out
 *.app
 
-<<<<<<< HEAD
-.vs/
-=======
-.vs/*
->>>>>>> 267926a605704a9cbae0a19eba78debe2b4b1ee1
+/.vs/
 

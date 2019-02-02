@@ -7,6 +7,8 @@
 class ProfileException : std::exception
 {
 public:
+	ProfileException(int _errno) : m_errno(_errno) {}
+
 	int type()
 	{
 		return m_errno;
