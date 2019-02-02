@@ -4,6 +4,8 @@
 #include "loader.h"
 #include "../include/exception.h"
 #include "../utils/platform.h"
+#include "../utils/visitpaths.h"
+
 
 namespace MakeSharp
 {
@@ -118,6 +120,10 @@ namespace MakeSharp
 								{
 									isDir = false;
 									includePaths.push_back(path);
+								}
+
+								if (isDir)
+								{
 								}
 
 							}
