@@ -21,7 +21,7 @@
         ]
     },
     "object": {
-        "include": ["include/", "test/include/", {"other/": "aaa.h"],
+        "include": ["include/", "test/include/", {"other/": "aaa.h"}],
         "source": ["src", "test"]
     },
     "target": [

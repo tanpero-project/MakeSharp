@@ -2,9 +2,9 @@
 
 namespace MakeSharp
 {
-	namespace Parser
+	namespace parser
 	{
-		MetaDataGetter::MetaData(Loader::MetaData metadata)
+		MetaDataGetter::MetaData(loader::MetaData metadata)
 		{
 			m_name = metadata.name;
 			m_author = metadata.author;
