@@ -2,6 +2,8 @@
 #define _SRC_PARSER_PROFILE_H_
 
 #include "loader.h"
+#include "../include/exception.h"
+#include "../utils/platform.h"
 
 namespace MakeSharp
 {
@@ -10,6 +12,12 @@ namespace MakeSharp
 		namespace profile
 		{
 			class Profile;
+
+			using platform = utils::Platform;
+			using platformType = utils::platformType;
+			bool isDOSStyle = HAS_FLAG(platform::getPlatform, platformType::WINDOWS)
+							|| HAS_FLAG(platform::getPlatform, platformType::MSDOS);
+			
 
 			struct MetaData
 			{
@@ -46,15 +54,16 @@ namespace MakeSharp
 				};
 				return metadata;
 			}
-			
+
 			SourceObject getSourceObjects(json j)
 			{
 				json includes = j["include"];
 				std::vector<std::string> includePaths;
+				bool isDir;
 
 				/*
 				* "include": [
-				*	  "src/include/", 
+				*	  "src/include/",
 				*	  "3rd_party/goslin/lang.hpp",
 				*     {
 				*		  "include/": "first.h"
@@ -73,8 +82,7 @@ namespace MakeSharp
 					{
 						// 如果是字符串，直接当做头文件路径
 						std::string path = it->get<std::string>();
-						includePaths.push_back(i);
-						
+
 						// 根据平台和最后一个字符，判定该路径为非法/目录/文件名√
 
 					}
@@ -88,9 +96,30 @@ namespace MakeSharp
 							{
 								// 如果是字符串，直接当做头文件路径
 								std::string path = it->get<std::string>();
-								includePaths.push_back(i);
 
 								// 根据平台和最后一个字符，判定该路径为非法/文件名（这时不允许出现目录名）
+								if (path.at(path.length - 1) == std::string("\\"))
+								{
+									// 非 DOS/Windows 平台下不允许使用 '\' 作为分隔符
+									if (!isDOSStyle)
+									{
+										throw ProfileException(INVALID_SOURCE_PATH);
+									}
+									else
+									{
+										isDir = true;
+									}
+								}
+								else if (path.at(path.length - 1) == std::string("//"))
+								{
+									isDir = true;
+								}
+								else
+								{
+									isDir = false;
+									includePaths.push_back(path);
+								}
+
 							}
 							else if (it2->is_array)
 							{
@@ -105,20 +134,20 @@ namespace MakeSharp
 									else
 									{
 										// 非法值
-										// throw 
+										throw ProfileException(INVALID_SOURCE_PATH);
 									}
 								}
 							}
 							else
 							{
 								// 非法值
-								//throw;
+								throw ProfileException(INVALID_SOURCE_PATH);
 							}
 						}
 					}
 				}
 			}
-
+			
 			class Profile
 			{
 			public:
