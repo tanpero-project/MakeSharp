@@ -37,15 +37,15 @@ namespace MakeSharp
 				std::string repoUrl;
 			};
 
-			struct SourceObject
+			/* struct SourceObject
 			{
 				std::vector<std::string> includes;
 				std::vector<std::string> sources;
-			};
+			}; */
 
 			MetaData getMetaDatas(json j)
 			{
-				MetaData metadata = {
+				MetaData metadata {
 					j["name"],
 					j["author"],
 					j["version"],
@@ -57,7 +57,7 @@ namespace MakeSharp
 				return metadata;
 			}
 
-			SourceObject getSourceObjects(json j)
+			std::vector<std::string> getIncludes(json j)
 			{
 				json includes = j["include"];
 				std::vector<std::string> includePaths;
@@ -86,7 +86,7 @@ namespace MakeSharp
 						std::string path = it->get<std::string>();
 
 						// 根据平台和最后一个字符，判定该路径为非法/目录/文件名√
-						if (path.at(path.length - 1) == std::string("\\"))
+						if (path.at(path.size - 1) == std::string("\\"))
 						{
 							// 非 DOS/Windows 平台下不允许使用 '\' 作为分隔符
 							if (!isDOSStyle)
@@ -98,7 +98,7 @@ namespace MakeSharp
 								isDir = true;
 							}
 						}
-						else if (path.at(path.length - 1) == std::string("//"))
+						else if (path.at(path.size - 1) == std::string("//"))
 						{
 							isDir = true;
 						}
@@ -128,10 +128,10 @@ namespace MakeSharp
 								std::string fileName = it2->get<std::string>();
 
 								// 根据平台和最后一个字符，判定该路径为非法/文件名（这时不允许出现目录名）
-								if ((fileName.at(path.length - 1) == std::string("\\"))
-									|| fileName.at(path.length - 1) == std::string("\\"))
+								if ((fileName.at(path.size - 1) == std::string("\\"))
+									|| fileName.at(path.size - 1) == std::string("\\"))
 								{
-									throw Profile(INVALID_SOURCE_PATH);
+									throw ProfileException(INVALID_SOURCE_PATH);
 								}			
 								else
 								{
@@ -171,6 +171,47 @@ namespace MakeSharp
 
 				return includePaths;
 			}
+
+			std::vector<std::string> getSources(json j)
+			{
+				json sources = j["source"];
+				std::vector<std::string> sourcePaths;
+				
+				for (auto path : sources)
+				{
+					// 根据平台和最后一个字符，判定该路径为非法/目录/文件名√
+					if (path.at(path.size() - 1) == std::string("\\"))
+					{
+						// 非 DOS/Windows 平台下不允许使用 '\' 作为分隔符
+						if (!isDOSStyle)
+						{
+							throw ProfileException(INVALID_SOURCE_PATH);
+						}
+						else
+						{
+							isDir = true;
+						}
+					}
+					else if (path.at(path.size - 1) == std::string("//"))
+					{
+						isDir = true;
+					}
+					else
+					{
+						isDir = false;
+						sourcePaths.push_back(path);
+					}
+
+					if (isDir)
+					{
+						// 将目录下所有符合源文件后缀名的文件路径插入到 sourcePaths 中
+						std::vector<std::string> paths = utils::visitpath::filterSourceFilePaths(in);
+						sourcePaths.insert(sourcePaths.end(), paths.begin(), paths.end());
+					}
+				}
+
+				return sourcePaths;
+			}
 			
 			class Profile
 			{
@@ -183,6 +224,17 @@ namespace MakeSharp
 				{
 					return getMetaDatas(object);
 				}
+				
+				std::vector<std::string> getIncludes()
+				{
+					return getIncludes(object);
+				}
+
+				std::vector<std::string> getSources()
+				{
+					return getSources(object);
+				}
+
 			private:
 				json object;
 			};
