@@ -1,5 +1,5 @@
 add_library(
-	parser,
-	STATIC.
-	"metadata.cpp"
+    parser,
+    STATIC.
+    "metadata.cpp"
 )
