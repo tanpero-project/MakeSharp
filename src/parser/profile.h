@@ -49,12 +49,6 @@ namespace MakeSharp
                 std::string repoUrl;
             };
 
-            /* struct SourceObject
-            {
-                std::vector<std::string> includes;
-                std::vector<std::string> sources;
-            }; */
-
             inline MetaData getProfileMetaDatas(json j)
             {
 				MetaData metadata;

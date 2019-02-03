@@ -21,7 +21,6 @@ namespace MakeSharp
 
 			MetaDataGetter getMetaDatas()
 			{
-				//MetaDataGetter m = MetaDataGetter(profile::getProfileMetaDatas(m_profile.getMetaDatas()));
 				MetaDataGetter m(m_profile.getMetaDatas());
 				return m;
 			}
