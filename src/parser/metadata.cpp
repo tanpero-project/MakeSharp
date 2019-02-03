@@ -4,34 +4,34 @@ namespace MakeSharp
 {
     namespace parser
     {
-		MetaDataGetter::MetaDataGetter(void)
-		{
-		}
+        MetaDataGetter::MetaDataGetter(void)
+        {
+        }
 
-		MetaDataGetter::MetaDataGetter(const profile::MetaData& metadata)
+        MetaDataGetter::MetaDataGetter(const profile::MetaData& metadata)
         {
             m_name = metadata.name;
             m_author = metadata.author;
             m_version = metadata.version;
             m_description = metadata.description;
             m_license = metadata.license;
-			m_repository = Repository(metadata.repoType, metadata.repoUrl);
+            m_repository = Repository(metadata.repoType, metadata.repoUrl);
         }
 
 
 
-		MetaDataGetter::MetaDataGetter(const MetaDataGetter &)
-		{
-		}
+        MetaDataGetter::MetaDataGetter(const MetaDataGetter &)
+        {
+        }
 
-		MetaDataGetter::~MetaDataGetter()
-		{
-		}
+        MetaDataGetter::~MetaDataGetter()
+        {
+        }
 
-		MetaDataGetter & MetaDataGetter::operator=(const MetaDataGetter & m)
-		{
-			return static_cast<MetaDataGetter>(m);
-		}
+        MetaDataGetter & MetaDataGetter::operator=(const MetaDataGetter & m)
+        {
+            return static_cast<MetaDataGetter>(m);
+        }
 
         std::string MetaDataGetter::name(void) const
         {
@@ -58,11 +58,11 @@ namespace MakeSharp
             return m_license;
         }
 
-		MetaDataGetter::Repository::Repository()
-		{
-		}
+        MetaDataGetter::Repository::Repository()
+        {
+        }
 
-		MetaDataGetter::Repository::Repository(std::string _type, std::string _url)
+        MetaDataGetter::Repository::Repository(std::string _type, std::string _url)
         {
             m_type = _type;
             m_url = _url;
