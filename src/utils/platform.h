@@ -10,7 +10,7 @@
 #endif // WIN64
 
 
-#define HAS_FLAG(target, flag) ((target & flag) != 0)
+#define HAS_FLAG(target, flag) (((int)(target) & (int)(flag)) != 0)
 
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
     #include <sys/param.h>
@@ -19,6 +19,9 @@
 #elif !defined(_WIN32) && (defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__)))
     #include <unistd.h>
 #endif
+
+#define ADD_FLAG(target, flag) (static_cast<int>(target), static_cast<int>(flag))
+
 namespace MakeSharp{
     namespace utils{
         enum class platformType {
@@ -63,42 +66,42 @@ namespace MakeSharp{
             static platformType getPlatform(){
                 platformType type = platformType::UNKNOWN;
 #if defined(_AIX)
-                type |= AIX;
+				ADD_FLAG(type, AIX);
 #elif defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
     #if defined(BSD)
-                type |= platformType::BSD;
+				ADD_FLAG(type, platformType::BSD);
     #endif
 #elif defined(__hpux)
-                type |= platformType::HPUX;
+				ADD_FLAG(type, platformType::HPUX);
 #elif defined(__linux__)
-                type |= platformType::LINUX;
+				ADD_FLAG(type, platformType::LINUX);
 #elif defined(__APPLE__) && defined(__MACH__)
     #if TARGET_IPHONE_SIMULATOR  ==  1
-                type |= platformType::XCODE;
+				ADD_FLAG(type, platformType::XCODE);
     #elif TARGET_OS_IPHONE  ==  1
-                type |= platformType::IOS;
+				ADD_FLAG(type, platformType::IOS);
     #elif TARGET_OS_MAC  ==  1
-                type |= platformType::OSX;
+				ADD_FLAG(type, platformType::OSX);
     #else
-                type |= platformType::APPLE;
+				ADD_FLAG(type, platformType::APPLE);
     #endif
 #elif defined(__sun) && defined(__SVR4)
-                type |= platformType::SOLARIS;
+				ADD_FLAG(type, platformType::SOLARIS);
 #elif defined(__CYGWIN__) && !defined(_WIN32)
-                type |= platformType::CYGWIN;
+				ADD_FLAG(type, platformType::CYGWIN);
 #elif defined(_WIN64)
-                type |= platformType::WIN64;
+				ADD_FLAG(type, platformType::WIN64);
 #elif defined(_WIN32)
-                type |= platformType::WIN32;
+                ADD_FLAG(type, platformType::WIN32);
 #elif !defined(_WIN32) && (defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__)))
-                type |= platformType::UNIX;
+				ADD_FLAG(type, platformType::UNIX);
     #if defined(_POSIX_VERSION)
-                type |= platformType::POSIX;
+				ADD_FLAG(type, platformType::POSIX);
     #endif
 #else
-                type |= platformType::OTHER;
+				ADD_FLAG(type, platformType::OTHER);
 #endif
-                return type;
+				return type;
             }
             static compilerType getCompiler(){
                 compilerType type;
@@ -133,5 +136,7 @@ namespace MakeSharp{
         
     };
 };
+
+#undef ADD_FLAG
 
 #endif // !_SRC_UTILS_PLATFORM_H_

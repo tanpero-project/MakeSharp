@@ -15,6 +15,7 @@ namespace MakeSharp
             class Repository
             {
             public:
+				Repository();
                 Repository(std::string, std::string);
                 std::string url(void);
                 std::string type(void);
@@ -25,15 +26,20 @@ namespace MakeSharp
             using Author = profile::MetaData::Author;
 
         public:
-            MetaDataGetter(profile::MetaData metadata);
+			MetaDataGetter();
+			MetaDataGetter(profile::MetaData metadata);
+            MetaDataGetter(profile::MetaData& metadata);
+			MetaDataGetter(const MetaDataGetter&);
             ~MetaDataGetter();
 
-            std::string name(void);
-            Author author(void);
-            std::string version(void);
-            std::string description(void);
-            Repository repository(void);
-            std::string license(void);
+			MetaDataGetter& operator=(const MetaDataGetter& m);
+
+            std::string name(void) const;
+            Author author(void) const;
+            std::string version(void) const;
+            std::string description(void) const;
+            Repository repository(void) const;
+            std::string license(void) const;
 
         private:
             std::string m_name, m_version,

@@ -1,0 +1,7 @@
+﻿  metadata.cpp
+  profile.cpp
+d:\repo\makesharp\test\../src/parser/parser.h(25): error C2440: “<function-style-cast>”: 无法从“MakeSharp::parser::profile::MetaData”转换为“MakeSharp::parser::MetaDataGetter”
+  d:\repo\makesharp\test\../src/parser/parser.h(25): note: 无构造函数可以接受源类型，或构造函数重载决策不明确
+  正在生成代码...
+d:\repo\makesharp\src\parser\metadata.cpp(35): warning C4172: 返回局部变量或临时变量的地址
+d:\repo\makesharp\src\parser\profile.h(37): warning C4172: 返回局部变量或临时变量的地址

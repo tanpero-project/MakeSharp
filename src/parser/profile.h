@@ -2,6 +2,8 @@
 #define _SRC_PARSER_PROFILE_H_
 
 #include "loader.h"
+#include "../utils/platform.h"
+#include "../include/exception.h"
 
 namespace MakeSharp
 {
@@ -17,13 +19,23 @@ namespace MakeSharp
                             || HAS_FLAG(platform::getPlatform, platformType::MSDOS);
             
 
-            struct MetaData
+            class MetaData
             {
+			public:
+				MetaData() {}
+				MetaData(MetaData&) {}
+				~MetaData() {}
                 std::string name;
                 union Author
                 {
                     std::string authorName;
-                    std::vector<std::string> authorName;
+                    std::vector<std::string> authorNames;
+					Author() {}
+					~Author() {}
+					Author(const Author&) {}
+					Author& operator=(const Author& a) {
+						return Author(a);
+					}
                 };
                 Author author;
                 std::string version;
@@ -41,15 +53,23 @@ namespace MakeSharp
 
             MetaData getProfileMetaDatas(json j)
             {
-                MetaData metadata {
-                    j["name"],
-                    j["author"],
-                    j["version"],
-                    j["description"],
-                    j["license"],
-                    j["repository"]["type"],
-                    j["repository"]["url"],
-                };
+				MetaData metadata;
+				metadata.name = j["name"].get<std::string>();
+
+				json author = j["author"];
+				if (author.is_string())
+					metadata.author.authorName = author.get<std::string>();
+				else if (author.is_array())
+					metadata.author.authorNames = author.get<std::vector<std::string>>();
+				else
+					throw ProfileException(INVALID_VALUE_TYPE);
+
+				metadata.version = j["version"].get<std::string>();
+				metadata.description = j["description"].get<std::string>();
+				j["license"].get<std::string>();
+				j["repository"]["type"].get<std::string>();
+				j["repository"]["url"].get<std::string>();
+                
                 return metadata;
             }
 
@@ -66,11 +86,17 @@ namespace MakeSharp
             class Profile
             {
             public:
-                /*Profile(std::string path) {
-                    object = loader::getJSON(path);
-                }*/
 
-				Profile& operator=(std::string path)
+                Profile() {
+					object = nullptr;
+                }
+
+				Profile(std::string path)
+				{
+					object = loader::getJSON(path);
+				}
+
+				Profile operator=(std::string path)
 				{
 					object = loader::getJSON(path);
 				}

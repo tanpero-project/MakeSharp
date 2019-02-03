@@ -4,44 +4,67 @@ namespace MakeSharp
 {
     namespace parser
     {
-        MetaDataGetter::MetaDataGetter(loader::MetaData metadata)
+		MetaDataGetter::MetaDataGetter(void)
+		{
+		}
+
+		MetaDataGetter::MetaDataGetter(profile::MetaData metadata)
         {
             m_name = metadata.name;
             m_author = metadata.author;
             m_version = metadata.version;
             m_description = metadata.description;
             m_license = metadata.license;
-            m_repository = Repository(metadata.repoType, metadata.repoUrl)
+			m_repository = Repository(metadata.repoType, metadata.repoUrl);
         }
+
+		MetaDataGetter::MetaDataGetter(profile::MetaData & metadata)
+		{
+		}
+
+		MetaDataGetter::MetaDataGetter(const MetaDataGetter &)
+		{
+		}
 
 		MetaDataGetter::~MetaDataGetter()
 		{
 		}
-        std::string MetaDataGetter::name(void)
+
+		MetaDataGetter & MetaDataGetter::operator=(const MetaDataGetter & m)
+		{
+			return MetaDataGetter(m);
+		}
+
+        std::string MetaDataGetter::name(void) const
         {
             return m_name;
         }
-        std::string MetaDataGetter::author(void)
+        MetaDataGetter::Author MetaDataGetter::author(void) const
         {
             return m_author;
         }
-        std::string MetaDataGetter::version(void)
+        std::string MetaDataGetter::version(void) const
         {
             return m_version;
         }
-        std::string MetaDataGetter::description(void)
+        std::string MetaDataGetter::description(void) const
         {
             return m_description;
         }
-        Repository MetaDataGetter::repository(void)
+        MetaDataGetter::Repository MetaDataGetter::repository(void) const
         {
             return m_repository;
         }
-        std::string MetaDataGetter::license(void)
+        std::string MetaDataGetter::license(void) const
         {
             return m_license;
         }
-        MetaDataGetter::Repository::Repository(std::string _type, std::string _url)
+
+		MetaDataGetter::Repository::Repository()
+		{
+		}
+
+		MetaDataGetter::Repository::Repository(std::string _type, std::string _url)
         {
             m_type = _type;
             m_url = _url;

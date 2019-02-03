@@ -16,12 +16,14 @@ namespace MakeSharp
 		public:
 			Profile(std::string file)
 			{
-				m_profile = file;
+				m_profile = profile::Profile(file);
 			}
 
 			MetaDataGetter getMetaDatas()
 			{
-				MetaDataGetter m = MetaDataGetter(profile::getMetaDatas(m_profile));
+				//MetaDataGetter m = MetaDataGetter(profile::getProfileMetaDatas(m_profile.getMetaDatas()));
+				MetaDataGetter m = MetaDataGetter(m_profile.getMetaDatas());
+				return m;
 			}
 
 			stringList getIncludes()

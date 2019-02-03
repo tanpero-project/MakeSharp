@@ -4,6 +4,7 @@
 #include "../include/exception.h"
 #include "../utils/platform.h"
 #include "../utils/visitpath.h"
+#include "profile.h"
 
 namespace MakeSharp
 {
@@ -39,10 +40,10 @@ namespace MakeSharp
 						std::string path = it->get<std::string>();
 
 						// 根据平台和最后一个字符，判定该路径为非法/目录/文件名√
-						if (path.at(path.size - 1) == std::string("\\"))
+						if (path.at(path.size() - 1) == '\\')
 						{
 							// 非 DOS/Windows 平台下不允许使用 '\' 作为分隔符
-							if (!isDOSStyle)
+							if (!profile::isDOSStyle)
 							{
 								throw ProfileException(INVALID_SOURCE_PATH);
 							}
@@ -51,7 +52,7 @@ namespace MakeSharp
 								isDir = true;
 							}
 						}
-						else if (path.at(path.size - 1) == std::string("//"))
+						else if (path.at(path.size() - 1) == '/')
 						{
 							isDir = true;
 						}
@@ -64,7 +65,7 @@ namespace MakeSharp
 						if (isDir)
 						{
 							// 将目录下所有符合头文件后缀名的文件路径插入到 includePaths 中
-							std::vector<std::string> paths = utils::visitpath::filterHeaderFilePaths(in);
+							std::vector<std::string> paths = utils::visitpath::filterHeaderFilePaths(path);
 							includePaths.insert(includePaths.end(), paths.begin(), paths.end());
 						}
 
@@ -81,8 +82,8 @@ namespace MakeSharp
 								std::string fileName = it2->get<std::string>();
 
 								// 根据平台和最后一个字符，判定该路径为非法/文件名（这时不允许出现目录名）
-								if ((fileName.at(path.size - 1) == std::string("\\"))
-									|| fileName.at(path.size - 1) == std::string("\\"))
+								if ((fileName.at(fileName.size() - 1) == '\\')
+									|| fileName.at(fileName.size() - 1) == '\\')
 								{
 									throw ProfileException(INVALID_SOURCE_PATH);
 								}
@@ -91,12 +92,12 @@ namespace MakeSharp
 									includePaths.push_back(dirName + fileName);
 								}
 							}
-							else if (it2->is_array)
+							else if (it2->is_array())
 							{
 								// 如果是数组，那么数组中项为具体的文件名
 								for (json::iterator file = it2->begin(); file != it2->end(); ++file)
 								{
-									if (file->is_string)
+									if (file->is_string())
 									{
 										// 存入文件路径：目录 + 文件名
 										includePaths.push_back(dirName + file->get<std::string>());
@@ -127,6 +128,8 @@ namespace MakeSharp
 
 			std::vector<std::string> getSources(json sources)
 			{
+				bool isDir;
+
 				/*
 				* "source": ["aaa.cpp", "base.mm", "src/"]
 				*/
@@ -137,13 +140,16 @@ namespace MakeSharp
 					throw ProfileException(INVALID_VALUE_TYPE);
 				}
 
-				for (auto path : sources)
+				for (auto index : sources)
+				//for (auto path = sources.begin(); path != sources.end(); ++path)
 				{
+					std::string path = index.get<std::string>();
+
 					// 根据平台和最后一个字符，判定该路径为非法/目录/文件名√
-					if (path.at(path.size() - 1) == std::string("\\"))
+					if (path.at(path.size() - 1) == '\\')
 					{
 						// 非 DOS/Windows 平台下不允许使用 '\' 作为分隔符
-						if (!isDOSStyle)
+						if (!profile::isDOSStyle)
 						{
 							throw ProfileException(INVALID_SOURCE_PATH);
 						}
@@ -152,7 +158,7 @@ namespace MakeSharp
 							isDir = true;
 						}
 					}
-					else if (path.at(path.size - 1) == std::string("//"))
+					else if (path.at(path.size() - 1) == '/')
 					{
 						isDir = true;
 					}
@@ -165,7 +171,7 @@ namespace MakeSharp
 					if (isDir)
 					{
 						// 将目录下所有符合源文件后缀名的文件路径插入到 sourcePaths 中
-						std::vector<std::string> paths = utils::visitpath::filterSourceFilePaths(in);
+						std::vector<std::string> paths = utils::visitpath::filterSourceFilePaths(path);
 						sourcePaths.insert(sourcePaths.end(), paths.begin(), paths.end());
 					}
 				}
