@@ -108,6 +108,19 @@ namespace MakeSharp{
 						scope.close();
 					}
 				}
+				void writeMacrosToIni(){
+					for(const auto& [key,value] : this->macros){
+						ns ofstream scope;
+						scope.open((key+".ini").c_str());
+						for(const auto& [key,value] : value){
+							scope	<<key
+								<<"="
+								<<value
+								<<ns endl;
+						}
+						scope.close();
+					}
+				}
 		};
 	};
 };
