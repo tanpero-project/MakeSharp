@@ -39,7 +39,7 @@ namespace MakeSharp
                 std::vector<std::string> sources;
             }; */
 
-            MetaData getMetaDatas(json j)
+            MetaData getProfileMetaDatas(json j)
             {
                 MetaData metadata {
                     j["name"],
@@ -53,12 +53,12 @@ namespace MakeSharp
                 return metadata;
             }
 
-			json getIncludes(json j)
+			json getProfileIncludes(json j)
 			{
 				return j["includes"];
 			}
 
-			json getSources(json j)
+			json getProfileSources(json j)
 			{
 				return j["source"];
 			}
@@ -77,17 +77,17 @@ namespace MakeSharp
 
                 MetaData getMetaDatas()
                 {
-                    return getMetaDatas(object);
+                    return getProfileMetaDatas(object);
                 }
                 
                 json getIncludes()
                 {
-                    return getIncludes(object);
+                    return getProfileIncludes(object["object"]);
                 }
 
                 json getSources()
                 {
-                    return getSources(object);
+                    return getProfileSources(object["object"]);
                 }
 
             private:
