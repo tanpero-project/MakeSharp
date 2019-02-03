@@ -25,8 +25,8 @@ namespace MakeSharp
             using Author = profile::MetaData::Author;
 
         public:
-            MetaData(profile::MetaData metadata);
-            ~MetaData();
+            MetaDataGetter(profile::MetaData metadata);
+            ~MetaDataGetter();
 
             std::string name(void);
             Author author(void);

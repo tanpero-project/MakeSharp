@@ -4,7 +4,7 @@ namespace MakeSharp
 {
     namespace parser
     {
-        MetaDataGetter::MetaData(loader::MetaData metadata)
+        MetaDataGetter::MetaDataGetter(loader::MetaData metadata)
         {
             m_name = metadata.name;
             m_author = metadata.author;
@@ -13,6 +13,10 @@ namespace MakeSharp
             m_license = metadata.license;
             m_repository = Repository(metadata.repoType, metadata.repoUrl)
         }
+
+		MetaDataGetter::~MetaDataGetter()
+		{
+		}
         std::string MetaDataGetter::name(void)
         {
             return m_name;
