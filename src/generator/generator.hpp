@@ -21,7 +21,6 @@ namespace MakeSharp{
 				ns vector<ns string> subdirs;
 				ns map<ns string,ns vector<ns string>> executables;
 				ns vector<ns string> includes;
-				ns ostream file;
 			public:
 				void setVersion(ns string v){
 					this->version=v;
@@ -55,16 +54,16 @@ namespace MakeSharp{
 				}
 				void setOut(ns string out){
 					this->output=out;
-					this->file=ostream;
-					this->file.open(out.c_str());
 				}
 				void setSubDirs(ns vector<ns string> s){
 					this->subdirs=s;
 				}
-				void setIncludes(ns vectoe<ns string> s){
+				void setIncludes(ns vector<ns string> s){
 					this->includes=s;
 				}
 				void write(){
+					ns ofstream file;
+					file.open(this->output.c_str());
 					file	<<"project("
 						<<this->name
 						<<")"
@@ -73,13 +72,13 @@ namespace MakeSharp{
 						file	<<"add_subdirectory("
 							<<sd
 							<<")"
-							<<endl;
+							<<ns endl;
 					}
 					for(ns string inc : this->includes){
 						file	<<"include_directories("
 							<<inc
 							<<")"
-							<<endl;
+							<<ns endl;
 					}
 					for(const auto& [key,value] : this->executables){
 						file	<<"add_executable("
@@ -90,21 +89,21 @@ namespace MakeSharp{
 								<<" ";
 						}
 						file	<<")"
-							<<endl;
+							<<ns endl;
 					}
 					file.close();
 					writeMacros();
 				}
 				void writeMacros(){
 					for(const auto& [key,value] : this->macros){
-						ns ostream scope;
+						ns ofstream scope;
 						scope.open(key.c_str());
 						for(const auto& [key,value] : value){
 							scope	<<"#define "
 								<<key
 								<<" "
 								<<value
-								<<endl;
+								<<ns endl;
 						}
 						scope.close();
 					}
