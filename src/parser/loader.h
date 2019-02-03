@@ -13,7 +13,7 @@ namespace MakeSharp
     {
         namespace loader
         {
-            json getJSON(std::string file)
+            inline json getJSON(std::string file)
             {
                 std::ifstream t;
                 t.open(file);

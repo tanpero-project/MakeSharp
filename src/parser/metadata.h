@@ -27,8 +27,10 @@ namespace MakeSharp
 
         public:
 			MetaDataGetter();
-			MetaDataGetter(profile::MetaData metadata);
-            MetaDataGetter(profile::MetaData& metadata);
+
+			//MetaDataGetter(profile::MetaData metadata);
+            MetaDataGetter(const profile::MetaData& metadata);
+			
 			MetaDataGetter(const MetaDataGetter&);
             ~MetaDataGetter();
 

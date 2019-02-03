@@ -15,8 +15,12 @@ namespace MakeSharp
 
             using platform = utils::Platform;
             using platformType = utils::platformType;
-            bool isDOSStyle = HAS_FLAG(platform::getPlatform, platformType::WINDOWS)
-                            || HAS_FLAG(platform::getPlatform, platformType::MSDOS);
+
+			inline bool isDOSStyle()
+			{
+				return HAS_FLAG(platform::getPlatform, platformType::WINDOWS)
+					|| HAS_FLAG(platform::getPlatform, platformType::MSDOS);
+			}
             
 
             class MetaData
@@ -51,7 +55,7 @@ namespace MakeSharp
                 std::vector<std::string> sources;
             }; */
 
-            MetaData getProfileMetaDatas(json j)
+            inline MetaData getProfileMetaDatas(json j)
             {
 				MetaData metadata;
 				metadata.name = j["name"].get<std::string>();
@@ -73,12 +77,12 @@ namespace MakeSharp
                 return metadata;
             }
 
-			json getProfileIncludes(json j)
+			inline json getProfileIncludes(json j)
 			{
 				return j["includes"];
 			}
 
-			json getProfileSources(json j)
+			inline json getProfileSources(json j)
 			{
 				return j["source"];
 			}
@@ -106,12 +110,12 @@ namespace MakeSharp
                     return getProfileMetaDatas(object);
                 }
                 
-                json getIncludes()
+                inline json getIncludes()
                 {
                     return getProfileIncludes(object["object"]);
                 }
 
-                json getSources()
+                inline json getSources()
                 {
                     return getProfileSources(object["object"]);
                 }

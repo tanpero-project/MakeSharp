@@ -12,7 +12,7 @@ namespace MakeSharp
     {
         namespace source
         {
-			std::vector<std::string> getIncludes(json includes)
+			inline std::vector<std::string> getIncludes(json includes)
 			{
 				std::vector<std::string> includePaths;
 				bool isDir;
@@ -43,7 +43,7 @@ namespace MakeSharp
 						if (path.at(path.size() - 1) == '\\')
 						{
 							// 非 DOS/Windows 平台下不允许使用 '\' 作为分隔符
-							if (!profile::isDOSStyle)
+							if (!profile::isDOSStyle())
 							{
 								throw ProfileException(INVALID_SOURCE_PATH);
 							}
@@ -126,7 +126,7 @@ namespace MakeSharp
 				return includePaths;
 			}
 
-			std::vector<std::string> getSources(json sources)
+			inline std::vector<std::string> getSources(json sources)
 			{
 				bool isDir;
 
@@ -149,7 +149,7 @@ namespace MakeSharp
 					if (path.at(path.size() - 1) == '\\')
 					{
 						// 非 DOS/Windows 平台下不允许使用 '\' 作为分隔符
-						if (!profile::isDOSStyle)
+						if (!profile::isDOSStyle())
 						{
 							throw ProfileException(INVALID_SOURCE_PATH);
 						}

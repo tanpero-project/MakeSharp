@@ -8,7 +8,7 @@ namespace MakeSharp
 		{
 		}
 
-		MetaDataGetter::MetaDataGetter(profile::MetaData metadata)
+		MetaDataGetter::MetaDataGetter(const profile::MetaData& metadata)
         {
             m_name = metadata.name;
             m_author = metadata.author;
@@ -18,9 +18,7 @@ namespace MakeSharp
 			m_repository = Repository(metadata.repoType, metadata.repoUrl);
         }
 
-		MetaDataGetter::MetaDataGetter(profile::MetaData & metadata)
-		{
-		}
+
 
 		MetaDataGetter::MetaDataGetter(const MetaDataGetter &)
 		{
@@ -32,7 +30,7 @@ namespace MakeSharp
 
 		MetaDataGetter & MetaDataGetter::operator=(const MetaDataGetter & m)
 		{
-			return MetaDataGetter(m);
+			return static_cast<MetaDataGetter>(m);
 		}
 
         std::string MetaDataGetter::name(void) const
