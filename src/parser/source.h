@@ -104,21 +104,21 @@ namespace MakeSharp
 									else
 									{
 										// 非法值
-										throw ProfileException(INVALID_SOURCE_PATH);
+										throw ProfileException(INVALID_VALUE_TYPE);
 									}
 								}
 							}
 							else
 							{
 								// 非法值
-								throw ProfileException(INVALID_SOURCE_PATH);
+								throw ProfileException(INVALID_VALUE_TYPE);
 							}
 						}
 					}
 					else
 					{
 						// 非法值
-						throw ProfileException(INVALID_SOURCE_PATH);
+						throw ProfileException(INVALID_VALUE_TYPE);
 					}
 				}
 
@@ -127,7 +127,15 @@ namespace MakeSharp
 
 			std::vector<std::string> getSources(json sources)
 			{
+				/*
+				* "source": ["aaa.cpp", "base.mm", "src/"]
+				*/
 				std::vector<std::string> sourcePaths;
+
+				if (!sources.is_array())
+				{
+					throw ProfileException(INVALID_VALUE_TYPE);
+				}
 
 				for (auto path : sources)
 				{
