@@ -44,8 +44,8 @@ int main()
 
     /*char* s = R"(
     {
-    	"happy": true,
-	"pi": 3.141592
+        "happy": true,
+    "pi": 3.141592
     }
     )";
     json j = json::parse(s);*/
@@ -55,7 +55,7 @@ int main()
 
     for (auto& [key, value] : j.items())
     {  
-	cout << key << ": " << value << "\n";
+    cout << key << ": " << value << "\n";
     }
     
     cout << "End!\n";

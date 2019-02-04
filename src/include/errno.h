@@ -2,5 +2,6 @@
 #define _SRC_INCLUDE_ERRNO_H_
 
 #define INVALID_SOURCE_PATH 1
+#define INVALID_VALUE_TYPE 2
 
 #endif // !_SRC_INCLUDE_ERRNO_H_

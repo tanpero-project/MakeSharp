@@ -7,13 +7,15 @@
 class ProfileException : std::exception
 {
 public:
-	int type()
-	{
-		return m_errno;
-	}
+    ProfileException(int _errno) : m_errno(_errno) {}
+
+    int type()
+    {
+        return m_errno;
+    }
 
 private:
-	int m_errno;
+    int m_errno;
 };
 
 
