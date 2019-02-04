@@ -1,3 +1,0 @@
-D:/repo/MakeSharp/build/CMakeFiles/test_profile.dir
-D:/repo/MakeSharp/build/CMakeFiles/ALL_BUILD.dir
-D:/repo/MakeSharp/build/CMakeFiles/ZERO_CHECK.dir

@@ -121,6 +121,24 @@ namespace MakeSharp{
 						scope.close();
 					}
 				}
+				void writeMacrosToSingleIni(){
+					ns ofstream single;
+					ns string dog="collected.ini";
+					single.open(dog);
+					for(const auto& [key,value] : this->macros){
+						single	<<"["
+							<<key
+							<<"]"
+							<<endl;
+						for(const auto& [k,v] : value){
+							single	<<k
+								<<"="
+								<<v
+								<<endl;
+						}
+					}
+					single.close();
+				}
 		};
 	};
 };

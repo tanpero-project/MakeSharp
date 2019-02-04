@@ -1,6 +1,0 @@
-﻿  metadata.cpp
-  profile.cpp
-  正在生成代码...
-d:\repo\makesharp\src\parser\metadata.cpp(33): warning C4172: 返回局部变量或临时变量的地址
-d:\repo\makesharp\src\parser\profile.h(41): warning C4172: 返回局部变量或临时变量的地址
-  test_profile.vcxproj -> D:\repo\MakeSharp\build\Debug\test_profile.exe
